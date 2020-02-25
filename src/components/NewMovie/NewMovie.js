@@ -10,7 +10,7 @@ const validateForm = ({ formErrors, ...rest }) => {
   });
 
   Object.values(rest).forEach((val) => {
-    val === '' && (valid = false);
+    val.trim() === '' && (valid = false);
   });
 
   return valid;
@@ -77,7 +77,7 @@ export class NewMovie extends Component {
         imdbId: '',
       });
     } else {
-      if (title.length < 3) {
+      if (title.trim().length < 3) {
         this.setState(prevState => ({
           formErrors: {
             ...prevState.formErrors,
@@ -86,7 +86,7 @@ export class NewMovie extends Component {
         }));
       }
 
-      if (imdbUrl.length < 3) {
+      if (imdbUrl.trim().length < 3) {
         this.setState(prevState => ({
           formErrors: {
             ...prevState.formErrors,
@@ -95,7 +95,7 @@ export class NewMovie extends Component {
         }));
       }
 
-      if (imdbId.length < 3) {
+      if (imdbId.trim().length < 3) {
         this.setState(prevState => ({
           formErrors: {
             ...prevState.formErrors,
@@ -149,7 +149,7 @@ export class NewMovie extends Component {
     if (name === 'title'
       || name === 'imdbUrl'
       || name === 'imdbId') {
-      if (value.length < 3) {
+      if (value.trim().length < 3) {
         this.setState(prevState => ({
           formErrors: {
             ...prevState.formErrors,
