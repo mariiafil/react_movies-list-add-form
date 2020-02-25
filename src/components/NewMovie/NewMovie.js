@@ -77,48 +77,33 @@ export class NewMovie extends Component {
         imdbId: '',
       });
     } else {
-      if (title.trim().length < 3) {
-        this.setState(prevState => ({
+      this.setState((prevState) => {
+        const object = {};
+
+        if (title.trim().length < 3) {
+          object.title = 'minimum 3 characaters required';
+        }
+
+        if (imdbUrl.trim().length < 3) {
+          object.imdbUrl = 'minimum 3 characaters required';
+        }
+
+        if (imdbId.trim().length < 3) {
+          object.imdbId = 'minimum 3 characaters required';
+        }
+
+        if (!imgUrl.match(patternUrl)) {
+          object.imgUrl = 'not valid Url';
+        }
+
+        return {
           formErrors: {
             ...prevState.formErrors,
-            title: 'minimum 3 characaters required',
+            ...object,
+            isEmpty: true,
           },
-        }));
-      }
-
-      if (imdbUrl.trim().length < 3) {
-        this.setState(prevState => ({
-          formErrors: {
-            ...prevState.formErrors,
-            imdbUrl: 'minimum 3 characaters required',
-          },
-        }));
-      }
-
-      if (imdbId.trim().length < 3) {
-        this.setState(prevState => ({
-          formErrors: {
-            ...prevState.formErrors,
-            imdbId: 'minimum 3 characaters required',
-          },
-        }));
-      }
-
-      if (!imgUrl.match(patternUrl)) {
-        this.setState(prevState => ({
-          formErrors: {
-            ...prevState.formErrors,
-            imgUrl: 'not valid Url',
-          },
-        }));
-      }
-
-      this.setState(prevState => ({
-        formErrors: {
-          ...prevState.formErrors,
-          isEmpty: true,
-        },
-      }));
+        };
+      });
     }
   }
 
@@ -126,18 +111,12 @@ export class NewMovie extends Component {
     const { name } = e.target;
     const { formErrors } = this.state;
 
-    this.setState(prevState => ({
-      formErrors: {
-        ...prevState.formErrors,
-        isEmpty: false,
-      },
-    }));
-
     if (formErrors[name].length > 0) {
       this.setState(prevState => ({
         formErrors: {
           ...prevState.formErrors,
           [name]: '',
+          isEmpty: false,
         },
       }));
     }
@@ -156,6 +135,8 @@ export class NewMovie extends Component {
             [name]: 'minimum 3 characaters required',
           },
         }));
+
+        return;
       }
     }
 
